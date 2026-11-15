@@ -8,8 +8,9 @@ The feed API (SPEC.md, 5 routes) on skein, a Goose web library, over tcprouter, 
 
 ## Build (as it stands)
 ```
-LIBRARY_PATH=$PWD/deps/lib ~/dev/tcprouter/goose-kb/bin/goose build server.goose
+LIBRARY_PATH=$PWD/deps/lib goose build server.goose
 ```
+`goose` is the Goose compiler from the environment (on `PATH`, or the path in `$GOOSE`); no repository path is assumed. skein's design notes name Goose `751794c` as the compiler it was developed against.
 - `deps` is a symlink to the epoll entry's `deps` (libpq is not used here; ISA-L is: `deps/lib/libisal.a`).
 - Imports skein by relative path, `import skein from "../../../skein"` (skein lives at `~/dev/skein` and is not moving). It must be pinned to a git reference for a real submission.
 - Tested against skein `99ef142` and tcprouter `v0.6.0`.
