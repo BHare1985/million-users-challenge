@@ -1,7 +1,7 @@
 // The feed API on skein (a Goose web library, think Fastify). Routes, JSON, JWT, gzip and the pool of Postgres connections come from skein; this file
 // is the routes, the SQL, and a small Postgres adapter on goose-postgres's core (startup and SCRAM; the rest of the protocol is a few lines below).
 // Config: DATABASE_URL, JWT_SECRET, HOST, PORT, EXTRA_PORT (skein reads them).
-import tcprouter from "github.com/bhare1985/tcprouter@v0.5.0";
+import tcprouter from "github.com/bhare1985/tcprouter@v0.6.0";
 import gslib from "github.com/SorinS/gslib@024b252e1d519df971b142146239d5cd3cde5e8d";
 import hash from "github.com/kaitk/goose-hash@v0.0.4";
 import pg from "github.com/kaitk/goose-postgres@c89f8b421b0aad75e7dda1a34197ca910ce7137d";
@@ -349,7 +349,7 @@ fn async_ready(w: skein::Worker&, req: skein::Request&) -> bool { skein::upstrea
 fn async_finish(w: skein::Worker&, req: skein::Request&) { after(IsaGzip { }, req); }
 
 fn main() {
-    var app = skein::Config { require_jwt: true, require_db: true, jwt_min_secret: 1, max_waiting: 1000, upstream_conns: 128, upstream_lanes: 2, .. };
+    var app = skein::Config { require_jwt: true, require_db: true, jwt_min_secret: 1, max_waiting: 1000, upstream_conns: 128, upstream_lanes: 2, upstream_max_queue: 4096, upstream_deadline_ms: 800, upstream_in_max: 131072, .. };
     app.env();
     app.upstream_url.clear();                        // the one URL: DATABASE_URL
     app.upstream_url.append(app.database_url[..]);
