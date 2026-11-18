@@ -1,0 +1,5 @@
+// The server's own C: ISA-L gzip (isal.c). build.sh puts the ISA-L archive in deps/lib, where -l finds it.
+c_sources = ["isal.c", "entropy.c"];
+c_include = ["deps/isa-l-2.31.1/include"];
+c_libs = ["isal"];
+output = "server_pool";
